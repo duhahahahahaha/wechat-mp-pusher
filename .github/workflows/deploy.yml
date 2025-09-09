@@ -32,26 +32,25 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 10
+          run_install: false
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: pnpm # 使用 pnpm 缓存
-          cache-dependency-path: pnpm-lock.yaml
-      - name: Enable Corepack
-        run: corepack enable
-      - name: Use pnpm 10.13.1
-        run: corepack prepare pnpm@10.13.1 --activate
+          node-version: 22
+          cache: pnpm # 或 pnpm / yarn
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
       - name: Build with VitePress
         run: pnpm run docs:build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # 由于配置文件位于仓库根目录的 .vitepress 下，构建产物目录为 .vitepress/dist
           path: .vitepress/dist
 
   # 部署工作
