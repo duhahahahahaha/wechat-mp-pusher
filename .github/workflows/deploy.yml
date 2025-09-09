@@ -35,13 +35,13 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
           cache: pnpm # 使用 pnpm 缓存
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.13.1
-          run_install: false
+          cache-dependency-path: pnpm-lock.yaml
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Use pnpm 10.13.1
+        run: corepack prepare pnpm@10.13.1 --activate
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Install dependencies
